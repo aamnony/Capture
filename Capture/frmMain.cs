@@ -40,6 +40,7 @@ namespace Capture
         {
             if (e.Button == MouseButtons.Left)
             {
+                selectionBox.BorderStyle = Properties.Settings.Default.ImageBorder;
                 mLeftMouseButtonDown = true;
                 mSelectionBoxStart.X = e.X;
                 mSelectionBoxStart.Y = e.Y;

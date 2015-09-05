@@ -43,6 +43,8 @@
             this.grpData = new System.Windows.Forms.GroupBox();
             this.grpBehaviour = new System.Windows.Forms.GroupBox();
             this.chkCopyToClipboard = new System.Windows.Forms.CheckBox();
+            this.cmbImageBorder = new System.Windows.Forms.ComboBox();
+            this.lblFrame = new System.Windows.Forms.Label();
             this.grpData.SuspendLayout();
             this.grpBehaviour.SuspendLayout();
             this.SuspendLayout();
@@ -97,7 +99,7 @@
             // lblImageFormat
             // 
             this.lblImageFormat.AutoSize = true;
-            this.lblImageFormat.Location = new System.Drawing.Point(9, 60);
+            this.lblImageFormat.Location = new System.Drawing.Point(12, 58);
             this.lblImageFormat.Name = "lblImageFormat";
             this.lblImageFormat.Size = new System.Drawing.Size(87, 16);
             this.lblImageFormat.TabIndex = 10;
@@ -203,6 +205,8 @@
             // 
             // grpData
             // 
+            this.grpData.Controls.Add(this.cmbImageBorder);
+            this.grpData.Controls.Add(this.lblFrame);
             this.grpData.Controls.Add(this.lblPath);
             this.grpData.Controls.Add(this.txtPath);
             this.grpData.Controls.Add(this.cmbImageFormats);
@@ -211,7 +215,7 @@
             this.grpData.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.grpData.Location = new System.Drawing.Point(226, 8);
             this.grpData.Name = "grpData";
-            this.grpData.Size = new System.Drawing.Size(323, 93);
+            this.grpData.Size = new System.Drawing.Size(323, 128);
             this.grpData.TabIndex = 17;
             this.grpData.TabStop = false;
             this.grpData.Text = "Data";
@@ -245,6 +249,28 @@
             this.chkCopyToClipboard.Text = "Copy images to clipboard";
             this.chkCopyToClipboard.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chkCopyToClipboard.UseVisualStyleBackColor = true;
+            // 
+            // cmbFrame
+            // 
+            this.cmbImageBorder.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cmbImageBorder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbImageBorder.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cmbImageBorder.FormattingEnabled = true;
+            this.cmbImageBorder.Location = new System.Drawing.Point(105, 88);
+            this.cmbImageBorder.Name = "cmbFrame";
+            this.cmbImageBorder.Size = new System.Drawing.Size(173, 24);
+            this.cmbImageBorder.Sorted = true;
+            this.cmbImageBorder.TabIndex = 13;
+            // 
+            // lblFrame
+            // 
+            this.lblFrame.AutoSize = true;
+            this.lblFrame.Location = new System.Drawing.Point(12, 91);
+            this.lblFrame.Name = "lblFrame";
+            this.lblFrame.Size = new System.Drawing.Size(83, 16);
+            this.lblFrame.TabIndex = 12;
+            this.lblFrame.Text = "Image frame:";
+            this.lblFrame.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // frmOptions
             // 
@@ -291,5 +317,7 @@
         private System.Windows.Forms.GroupBox grpData;
         private System.Windows.Forms.GroupBox grpBehaviour;
         private System.Windows.Forms.CheckBox chkCopyToClipboard;
+        private System.Windows.Forms.ComboBox cmbImageBorder;
+        private System.Windows.Forms.Label lblFrame;
     }
 }

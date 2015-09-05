@@ -22,10 +22,18 @@ namespace Capture
         private void Form_Load(object sender, EventArgs e)
         {
             txtPath.Text = Properties.Settings.Default.SavePath;
+
             cmbImageFormats.SelectedItem = Properties.Settings.Default.ImageFormat;
             if (cmbImageFormats.SelectedItem == null)
             {
                 cmbImageFormats.SelectedIndex = 0;
+            }
+
+            FillImageBorderComboBox();
+            cmbImageBorder.SelectedItem = Properties.Settings.Default.ImageBorder;
+            if (cmbImageBorder.SelectedItem == null)
+            {
+                cmbImageBorder.SelectedIndex = 2;
             }
 
             chkOpenAfterSaving.Checked = Properties.Settings.Default.OpenAfterSaving;
@@ -43,6 +51,7 @@ namespace Capture
                 {
                     Properties.Settings.Default.SavePath = CleanPath(txtPath.Text);
                     Properties.Settings.Default.ImageFormat = cmbImageFormats.SelectedItem.ToString();
+                    Properties.Settings.Default.ImageBorder = (BorderStyle)cmbImageBorder.SelectedItem;
                     Properties.Settings.Default.OpenAfterSaving = chkOpenAfterSaving.Checked;
                     Properties.Settings.Default.MinimizeAfterCapture = chkMinimizeAfterCapture.Checked;
                     Properties.Settings.Default.StartMinimized = chkStartMinimized.Checked;
@@ -88,6 +97,14 @@ namespace Capture
                 chkStartMinimized.Checked = mStartMinimized;
             }
         }
+
+        private void FillImageBorderComboBox()
+        {
+            cmbImageBorder.Items.Add(BorderStyle.None);
+            cmbImageBorder.Items.Add(BorderStyle.FixedSingle);
+            cmbImageBorder.Items.Add(BorderStyle.Fixed3D);
+        }
+
 
         private static string CleanPath(string path)
         {

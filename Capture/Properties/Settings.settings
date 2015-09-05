@@ -26,5 +26,8 @@
     <Setting Name="CopyToClipboard" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="ImageBorder" Type="System.Windows.Forms.BorderStyle" Scope="User">
+      <Value Profile="(Default)">Fixed3D</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
