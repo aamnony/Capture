@@ -5,7 +5,7 @@ namespace Capture
 {
     public partial class frmAbout : Form
     {
-        private const string MAIL = "Asaf.Amnony@gmail.com";
+        private const string MAIL = "aamnony@gmail.com";
         public frmAbout()
         {
             InitializeComponent();
