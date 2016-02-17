@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Windows.Forms;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Security.AccessControl;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace Capture
 {
@@ -17,99 +15,6 @@ namespace Capture
         public frmOptions()
         {
             InitializeComponent();
-        }
-
-        private void Form_Load(object sender, EventArgs e)
-        {
-            txtPath.Text = Properties.Settings.Default.SavePath;
-
-            cmbImageFormats.SelectedItem = Properties.Settings.Default.ImageFormat;
-            if (cmbImageFormats.SelectedItem == null)
-            {
-                cmbImageFormats.SelectedIndex = 0;
-            }
-
-            FillImageBorderComboBox();
-            cmbImageBorder.SelectedItem = Properties.Settings.Default.ImageBorder;
-            if (cmbImageBorder.SelectedItem == null)
-            {
-                cmbImageBorder.SelectedIndex = 2;
-            }
-
-            chkOpenAfterSaving.Checked = Properties.Settings.Default.OpenAfterSaving;
-            chkMinimizeAfterCapture.Checked = Properties.Settings.Default.MinimizeAfterCapture;
-            mStartMinimized = chkStartMinimized.Checked = Properties.Settings.Default.StartMinimized;
-            chkRunAtStartup.Checked = Properties.Settings.Default.RunAtStartup;
-            chkCopyToClipboard.Checked = Properties.Settings.Default.CopyToClipboard;
-        }
-
-        private void btnOk_Click(object sender, EventArgs e)
-        {
-            if (Directory.Exists(txtPath.Text))
-            {
-                if (CanAccessFolder(txtPath.Text))
-                {
-                    Properties.Settings.Default.SavePath = CleanPath(txtPath.Text);
-                    Properties.Settings.Default.ImageFormat = cmbImageFormats.SelectedItem.ToString();
-                    Properties.Settings.Default.ImageBorder = (BorderStyle)cmbImageBorder.SelectedItem;
-                    Properties.Settings.Default.OpenAfterSaving = chkOpenAfterSaving.Checked;
-                    Properties.Settings.Default.MinimizeAfterCapture = chkMinimizeAfterCapture.Checked;
-                    Properties.Settings.Default.StartMinimized = chkStartMinimized.Checked;
-                    Properties.Settings.Default.RunAtStartup = chkRunAtStartup.Checked;
-                    Properties.Settings.Default.CopyToClipboard = chkCopyToClipboard.Checked;
-                    Properties.Settings.Default.Save();
-
-                    AddRemoveStartupLink(chkRunAtStartup.Checked);
-                    this.Close();
-                }
-                else  MessageBox.Show(ACCESS_ERROR, String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else MessageBox.Show(INVALID_PATH_ERROR, String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        private void btnOpenFolderDialog_Click(object sender, EventArgs e)
-        {
-            folderBrowserDialog1.ShowDialog(this);
-            txtPath.Text = folderBrowserDialog1.SelectedPath;
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void txtPath_TextChanged(object sender, EventArgs e)
-        {
-            folderBrowserDialog1.SelectedPath = txtPath.Text;
-        }
-
-        private void chkRunAtStartup_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkRunAtStartup.Checked)
-            {
-                mStartMinimized = chkStartMinimized.Checked;
-                chkStartMinimized.Checked = true;
-                chkStartMinimized.Enabled = false;
-            }
-            else
-            {
-                chkStartMinimized.Enabled = true;
-                chkStartMinimized.Checked = mStartMinimized;
-            }
-        }
-
-        private void FillImageBorderComboBox()
-        {
-            cmbImageBorder.Items.Add(BorderStyle.None);
-            cmbImageBorder.Items.Add(BorderStyle.FixedSingle);
-            cmbImageBorder.Items.Add(BorderStyle.Fixed3D);
-        }
-
-
-        private static string CleanPath(string path)
-        {
-            char[] trim = { '\\','/' };
-            return path.TrimEnd(trim) + '\\';
         }
 
         // Add = true, Remove = false
@@ -138,7 +43,6 @@ namespace Capture
                 try { File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + "\\Capture.lnk"); }
                 catch { } //nada
             }
-
         }
 
         private static bool CanAccessFolder(string path)
@@ -148,12 +52,104 @@ namespace Capture
             {
                 File.Create(fileName).Dispose();
             }
-            catch (UnauthorizedAccessException uae)
+            catch (UnauthorizedAccessException)
             {
                 return false;
             }
             File.Delete(fileName);
             return true;
+        }
+
+        private static string CleanPath(string path)
+        {
+            char[] trim = { '\\', '/' };
+            return path.TrimEnd(trim) + '\\';
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnOk_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(txtPath.Text))
+            {
+                if (CanAccessFolder(txtPath.Text))
+                {
+                    Properties.Settings.Default.SavePath = CleanPath(txtPath.Text);
+                    Properties.Settings.Default.ImageFormat = cmbImageFormats.SelectedItem.ToString();
+                    Properties.Settings.Default.ImageBorder = (BorderStyle)cmbImageBorder.SelectedItem;
+                    Properties.Settings.Default.OpenAfterSaving = chkOpenAfterSaving.Checked;
+                    Properties.Settings.Default.MinimizeAfterCapture = chkMinimizeAfterCapture.Checked;
+                    Properties.Settings.Default.StartMinimized = chkStartMinimized.Checked;
+                    Properties.Settings.Default.RunAtStartup = chkRunAtStartup.Checked;
+                    Properties.Settings.Default.CopyToClipboard = chkCopyToClipboard.Checked;
+                    Properties.Settings.Default.Save();
+
+                    AddRemoveStartupLink(chkRunAtStartup.Checked);
+                    this.Close();
+                }
+                else MessageBox.Show(ACCESS_ERROR, String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else MessageBox.Show(INVALID_PATH_ERROR, String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void btnOpenFolderDialog_Click(object sender, EventArgs e)
+        {
+            folderBrowserDialog1.ShowDialog(this);
+            txtPath.Text = folderBrowserDialog1.SelectedPath;
+        }
+
+        private void chkRunAtStartup_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkRunAtStartup.Checked)
+            {
+                mStartMinimized = chkStartMinimized.Checked;
+                chkStartMinimized.Checked = true;
+                chkStartMinimized.Enabled = false;
+            }
+            else
+            {
+                chkStartMinimized.Enabled = true;
+                chkStartMinimized.Checked = mStartMinimized;
+            }
+        }
+
+        private void FillImageBorderComboBox()
+        {
+            cmbImageBorder.Items.Add(BorderStyle.None);
+            cmbImageBorder.Items.Add(BorderStyle.FixedSingle);
+            cmbImageBorder.Items.Add(BorderStyle.Fixed3D);
+        }
+
+        private void Form_Load(object sender, EventArgs e)
+        {
+            txtPath.Text = Properties.Settings.Default.SavePath;
+
+            cmbImageFormats.SelectedItem = Properties.Settings.Default.ImageFormat;
+            if (cmbImageFormats.SelectedItem == null)
+            {
+                cmbImageFormats.SelectedIndex = 0;
+            }
+
+            FillImageBorderComboBox();
+            cmbImageBorder.SelectedItem = Properties.Settings.Default.ImageBorder;
+            if (cmbImageBorder.SelectedItem == null)
+            {
+                cmbImageBorder.SelectedIndex = 2;
+            }
+
+            chkOpenAfterSaving.Checked = Properties.Settings.Default.OpenAfterSaving;
+            chkMinimizeAfterCapture.Checked = Properties.Settings.Default.MinimizeAfterCapture;
+            mStartMinimized = chkStartMinimized.Checked = Properties.Settings.Default.StartMinimized;
+            chkRunAtStartup.Checked = Properties.Settings.Default.RunAtStartup;
+            chkCopyToClipboard.Checked = Properties.Settings.Default.CopyToClipboard;
+        }
+
+        private void txtPath_TextChanged(object sender, EventArgs e)
+        {
+            folderBrowserDialog1.SelectedPath = txtPath.Text;
         }
     }
 }

@@ -29,5 +29,8 @@
     <Setting Name="ImageBorder" Type="System.Windows.Forms.BorderStyle" Scope="User">
       <Value Profile="(Default)">Fixed3D</Value>
     </Setting>
+    <Setting Name="UpgradeRequired" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -41,10 +41,10 @@
             this.chkOpenAfterSaving = new System.Windows.Forms.CheckBox();
             this.chkMinimizeAfterCapture = new System.Windows.Forms.CheckBox();
             this.grpData = new System.Windows.Forms.GroupBox();
-            this.grpBehaviour = new System.Windows.Forms.GroupBox();
-            this.chkCopyToClipboard = new System.Windows.Forms.CheckBox();
             this.cmbImageBorder = new System.Windows.Forms.ComboBox();
             this.lblFrame = new System.Windows.Forms.Label();
+            this.grpBehaviour = new System.Windows.Forms.GroupBox();
+            this.chkCopyToClipboard = new System.Windows.Forms.CheckBox();
             this.grpData.SuspendLayout();
             this.grpBehaviour.SuspendLayout();
             this.SuspendLayout();
@@ -70,7 +70,7 @@
             // 
             // btnOpenFolderDialog
             // 
-            this.btnOpenFolderDialog.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnOpenFolderDialog.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnOpenFolderDialog.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnOpenFolderDialog.Font = new System.Drawing.Font("Arial Black", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnOpenFolderDialog.Location = new System.Drawing.Point(283, 20);
@@ -85,7 +85,8 @@
             // btnCancel
             // 
             this.btnCancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCancel.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnCancel.Location = new System.Drawing.Point(434, 142);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
@@ -108,7 +109,7 @@
             // 
             // cmbImageFormats
             // 
-            this.cmbImageFormats.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cmbImageFormats.Cursor = System.Windows.Forms.Cursors.Default;
             this.cmbImageFormats.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbImageFormats.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cmbImageFormats.FormattingEnabled = true;
@@ -131,7 +132,7 @@
             // btnOk
             // 
             this.btnOk.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnOk.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnOk.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnOk.Location = new System.Drawing.Point(352, 142);
             this.btnOk.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
@@ -146,7 +147,7 @@
             // 
             this.chkStartMinimized.AutoSize = true;
             this.chkStartMinimized.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.chkStartMinimized.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkStartMinimized.Cursor = System.Windows.Forms.Cursors.Default;
             this.chkStartMinimized.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.chkStartMinimized.Location = new System.Drawing.Point(9, 134);
             this.chkStartMinimized.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
@@ -161,7 +162,7 @@
             // 
             this.chkRunAtStartup.AutoSize = true;
             this.chkRunAtStartup.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.chkRunAtStartup.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkRunAtStartup.Cursor = System.Windows.Forms.Cursors.Default;
             this.chkRunAtStartup.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.chkRunAtStartup.Location = new System.Drawing.Point(9, 107);
             this.chkRunAtStartup.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
@@ -177,7 +178,7 @@
             // 
             this.chkOpenAfterSaving.AutoSize = true;
             this.chkOpenAfterSaving.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.chkOpenAfterSaving.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkOpenAfterSaving.Cursor = System.Windows.Forms.Cursors.Default;
             this.chkOpenAfterSaving.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.chkOpenAfterSaving.Location = new System.Drawing.Point(9, 53);
             this.chkOpenAfterSaving.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
@@ -192,7 +193,7 @@
             // 
             this.chkMinimizeAfterCapture.AutoSize = true;
             this.chkMinimizeAfterCapture.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.chkMinimizeAfterCapture.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkMinimizeAfterCapture.Cursor = System.Windows.Forms.Cursors.Default;
             this.chkMinimizeAfterCapture.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.chkMinimizeAfterCapture.Location = new System.Drawing.Point(9, 26);
             this.chkMinimizeAfterCapture.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
@@ -220,6 +221,28 @@
             this.grpData.TabStop = false;
             this.grpData.Text = "Data";
             // 
+            // cmbImageBorder
+            // 
+            this.cmbImageBorder.Cursor = System.Windows.Forms.Cursors.Default;
+            this.cmbImageBorder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbImageBorder.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cmbImageBorder.FormattingEnabled = true;
+            this.cmbImageBorder.Location = new System.Drawing.Point(105, 88);
+            this.cmbImageBorder.Name = "cmbImageBorder";
+            this.cmbImageBorder.Size = new System.Drawing.Size(173, 24);
+            this.cmbImageBorder.Sorted = true;
+            this.cmbImageBorder.TabIndex = 13;
+            // 
+            // lblFrame
+            // 
+            this.lblFrame.AutoSize = true;
+            this.lblFrame.Location = new System.Drawing.Point(12, 91);
+            this.lblFrame.Name = "lblFrame";
+            this.lblFrame.Size = new System.Drawing.Size(83, 16);
+            this.lblFrame.TabIndex = 12;
+            this.lblFrame.Text = "Image frame:";
+            this.lblFrame.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // grpBehaviour
             // 
             this.grpBehaviour.Controls.Add(this.chkCopyToClipboard);
@@ -239,7 +262,7 @@
             // 
             this.chkCopyToClipboard.AutoSize = true;
             this.chkCopyToClipboard.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.chkCopyToClipboard.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkCopyToClipboard.Cursor = System.Windows.Forms.Cursors.Default;
             this.chkCopyToClipboard.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.chkCopyToClipboard.Location = new System.Drawing.Point(9, 80);
             this.chkCopyToClipboard.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
@@ -250,32 +273,12 @@
             this.chkCopyToClipboard.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chkCopyToClipboard.UseVisualStyleBackColor = true;
             // 
-            // cmbFrame
-            // 
-            this.cmbImageBorder.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cmbImageBorder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbImageBorder.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cmbImageBorder.FormattingEnabled = true;
-            this.cmbImageBorder.Location = new System.Drawing.Point(105, 88);
-            this.cmbImageBorder.Name = "cmbFrame";
-            this.cmbImageBorder.Size = new System.Drawing.Size(173, 24);
-            this.cmbImageBorder.Sorted = true;
-            this.cmbImageBorder.TabIndex = 13;
-            // 
-            // lblFrame
-            // 
-            this.lblFrame.AutoSize = true;
-            this.lblFrame.Location = new System.Drawing.Point(12, 91);
-            this.lblFrame.Name = "lblFrame";
-            this.lblFrame.Size = new System.Drawing.Size(83, 16);
-            this.lblFrame.TabIndex = 12;
-            this.lblFrame.Text = "Image frame:";
-            this.lblFrame.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // frmOptions
             // 
+            this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(558, 177);
             this.ControlBox = false;
             this.Controls.Add(this.grpBehaviour);

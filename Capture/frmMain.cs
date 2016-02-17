@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -8,19 +9,145 @@ namespace Capture
 {
     public partial class frmMain : Form
     {
-        private const int MINIMUM_SELECTION_WIDTH = 5;
         private const int MINIMUM_SELECTION_HEIGHT = 5;
+        private const int MINIMUM_SELECTION_WIDTH = 5;
+
+        private static readonly Cursor sShareCursor = new Cursor(Properties.Resources.Share.Handle);
+
         private bool mLeftMouseButtonDown = false;
         private Point mSelectionBoxStart = new Point(0, 0);
+        private string mUpdateURL;
 
         public frmMain()
         {
             InitializeComponent();
         }
 
+        public void MaximizeForm()
+        {
+            Show();
+            WindowState = FormWindowState.Maximized;
+        }
+
+        private static Bitmap CreateBitmap(Point start, Size size)
+        {
+            Bitmap bmp = new Bitmap(size.Width, size.Height, PixelFormat.Format32bppArgb);
+            Graphics g = Graphics.FromImage(bmp);
+            g.CopyFromScreen(start.X, start.Y, 0, 0, bmp.Size, CopyPixelOperation.SourceCopy);
+            return bmp;
+        }
+
+        /// <summary>
+        /// Saves bitmap with current timestamp.
+        /// </summary>
+        /// <returns>Full path of saved file.</returns>
+        private static string SaveBitmap(Bitmap bmp)
+        {
+            string timeStamp = DateTime.Now.ToString("yyyy-MM-dd_HHmmss.");
+            ImageFormat imageFormat = StringToImageFormat(Properties.Settings.Default.ImageFormat);
+            string path = Properties.Settings.Default.SavePath + timeStamp + imageFormat.ToString().ToLower();
+            try
+            {
+                bmp.Save(path, imageFormat);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(frmOptions.ACCESS_ERROR);
+            }
+
+            return path;
+        }
+
+        private static ImageFormat StringToImageFormat(string s)
+        {
+            switch (s)
+            {
+                case "Bmp":
+                    return ImageFormat.Bmp;
+
+                case "Emf":
+                    return ImageFormat.Emf;
+
+                case "Exif":
+                    return ImageFormat.Exif;
+
+                case "Gif":
+                    return ImageFormat.Gif;
+
+                case "Icon":
+                    return ImageFormat.Icon;
+
+                case "Jpeg":
+                    return ImageFormat.Jpeg;
+
+                case "Png":
+                    return ImageFormat.Png;
+
+                case "Tiff":
+                    return ImageFormat.Tiff;
+
+                case "Wmf":
+                    return ImageFormat.Wmf;
+
+                default:
+                    return ImageFormat.Bmp;
+            }
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new frmAbout().ShowDialog(this);
+        }
+
+        private void CloseSelectionBox()
+        {
+            selectionBox.Size = new Size(0, 0);
+        }
+
+        private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            minMaxToolStripMenuItem.Text = Visible ? "Hide" : "Show";
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void Form_Closing(object sender, FormClosingEventArgs e)
+        {
+            notifyIcon1.Visible = false;
+        }
+
+        private void Form_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 27) //esc
+            {
+                if (mLeftMouseButtonDown)
+                {
+                    mLeftMouseButtonDown = false;
+                    CloseSelectionBox();
+                }
+                else
+                {
+                    MinimizeForm();
+                }
+            }
+            else if (e.KeyChar == 's')
+            {
+                Cursor = Cursor == Cursors.Cross ? sShareCursor : Cursors.Cross;
+            }
+        }
+
         private void Form_Load(object sender, EventArgs e)
         {
-            this.Opacity = 0.4;
+            if (Properties.Settings.Default.UpgradeRequired)
+            {
+                Properties.Settings.Default.Upgrade();
+                Properties.Settings.Default.UpgradeRequired = false;
+            }
+
+            Opacity = 0.4;
             if (Properties.Settings.Default.IsFirstTime)
             {
                 Properties.Settings.Default.IsFirstTime = false;
@@ -28,11 +155,28 @@ namespace Capture
                 Directory.CreateDirectory(defaultPath);
                 Properties.Settings.Default.SavePath = defaultPath;
                 Properties.Settings.Default.Save();
-                return;
             }
-            if (Properties.Settings.Default.StartMinimized)
+            else if (Properties.Settings.Default.StartMinimized)
             {
-                minimizeForm();
+                MinimizeForm();
+            }
+
+            workerUpdateNotification.RunWorkerAsync();
+        }
+
+        private void Form_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (mLeftMouseButtonDown)
+                {
+                    mLeftMouseButtonDown = false;
+                    CloseSelectionBox();
+                }
+                else
+                {
+                    contextMenuStrip1.Show(e.X, e.Y);
+                }
             }
         }
 
@@ -56,7 +200,7 @@ namespace Capture
             }
             else
             {
-                closeSelectionBox();
+                CloseSelectionBox();
             }
         }
 
@@ -64,99 +208,85 @@ namespace Capture
         {
             if (mLeftMouseButtonDown && selectionBox.Width > MINIMUM_SELECTION_WIDTH && selectionBox.Height > MINIMUM_SELECTION_HEIGHT)
             {
+                var currentCurser = Cursor;
                 Cursor = Cursors.WaitCursor;
-                Bitmap bmp = CreateBitmap(selectionBox.Location, selectionBox.Size);
-                
-                if (Properties.Settings.Default.CopyToClipboard)
-                {
-                    Clipboard.SetImage(bmp);
-                }
-                
-                string timeStamp = DateTime.Now.ToString("dd-MM-yy_HHmmss.");
-                ImageFormat imageFormat = StringToImageFormat(Properties.Settings.Default.ImageFormat);
-                string path = Properties.Settings.Default.SavePath + timeStamp + imageFormat.ToString().ToLower();
-                try
-                {
-                    bmp.Save(path, imageFormat);
-                }
-                catch (Exception exc)
-                {
-                    MessageBox.Show(frmOptions.ACCESS_ERROR);
-                }
 
-                if (Properties.Settings.Default.OpenAfterSaving)
+                Bitmap bmp = CreateBitmap(selectionBox.Location, selectionBox.Size);
+                string path = SaveBitmap(bmp);
+
+                if (currentCurser == sShareCursor)
                 {
-                    System.Diagnostics.Process.Start(path);
+                    new frmShare(path).ShowDialog(this);
+                    MinimizeForm();
                 }
-                if (Properties.Settings.Default.MinimizeAfterCapture)
+                else
                 {
-                    minimizeForm();
+                    if (Properties.Settings.Default.CopyToClipboard)
+                    {
+                        Clipboard.SetImage(bmp);
+                    }
+                    if (Properties.Settings.Default.OpenAfterSaving)
+                    {
+                        Process.Start(path);
+                    }
+                    if (Properties.Settings.Default.MinimizeAfterCapture)
+                    {
+                        MinimizeForm();
+                    }
+                    toolTip1.Show("Captured screen", this, e.X, e.Y, 600);
                 }
-                toolTip1.Show("Captured screen", this, e.X, e.Y, 600);
-                Cursor = Cursors.Cross;
+                Cursor = currentCurser;
             }
             mLeftMouseButtonDown = false;
         }
 
-        private void Form_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == 27) //esc
-            {
-                if (mLeftMouseButtonDown)
-                {
-                    mLeftMouseButtonDown = false;
-                    closeSelectionBox();
-                }
-                else
-                {
-                    minimizeForm();
-                }
-            }
-        }
-
-        private void Form_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                if (mLeftMouseButtonDown)
-                {
-                    mLeftMouseButtonDown = false;
-                    closeSelectionBox();
-                }
-                else
-                {
-                    contextMenuStrip1.Show(e.X, e.Y);
-                }
-            }
-        }
-
         private void Form_Resize(object sender, EventArgs e)
         {
-            if (this.WindowState == FormWindowState.Minimized)
+            if (WindowState == FormWindowState.Minimized)
             {
-                this.Hide();
+                Hide();
             }
-
-            else if (this.WindowState == FormWindowState.Maximized)
+            else if (WindowState == FormWindowState.Maximized)
             {
-                this.ShowInTaskbar = true;
+                ShowInTaskbar = true;
             }
         }
 
-        private void Form_FormClosing(object sender, FormClosingEventArgs e)
+        private void MinimizeForm()
         {
-            notifyIcon1.Visible = false;
+            CloseSelectionBox();
+            WindowState = FormWindowState.Minimized;
         }
 
-        private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        private void minMaxToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            minMaxToolStripMenuItem.Text = this.Visible ? "Minimize" : "Maximize";
+            if (Visible)
+            {
+                MinimizeForm();
+            }
+            else
+            {
+                MaximizeForm();
+            }
+        }
+
+        private void notifyIcon1_BalloonTipClicked(object sender, EventArgs e)
+        {
+            Process.Start(mUpdateURL);
+        }
+
+        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                MaximizeForm();
+            }
         }
 
         private void openFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Properties.Settings.Default.SavePath);
-            minimizeForm();
+            Process.Start(Properties.Settings.Default.SavePath);
+            MinimizeForm();
         }
 
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -164,86 +294,40 @@ namespace Capture
             new frmOptions().ShowDialog(this);
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void updateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            Process.Start(mUpdateURL);
         }
 
-        private void minMaxToolStripMenuItem_Click(object sender, EventArgs e)
+        private void workerUpdateNotification_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            if (this.Visible)
+            var un = new UpdateNotificationLibrary.UpdateNotification("amnonya", "Capture");
+            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+            try
             {
-                minimizeForm();
+                if (!un.IsLatestVersion(fvi.FileVersion))
+                {
+                    e.Result = un.Url;
+                }
             }
-            else
+            catch
             {
-                maximizeForm();
-            }
-        }
-
-        private void aboutToolStripMenuItem_Click_1(object sender, EventArgs e)
-        {
-            new frmAbout().ShowDialog(this);
-        }
-
-        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                maximizeForm();
+                // Failed to decide version.
+                // No need to alert the user.
             }
         }
 
-        private void minimizeForm()
+        private void workerUpdateNotification_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
-            closeSelectionBox();
-            this.WindowState = FormWindowState.Minimized;
-        }
+            string result = (string)e.Result;
 
-        public void maximizeForm()
-        {
-            this.Show();
-            this.WindowState = FormWindowState.Maximized;
-        }
-
-        private void closeSelectionBox()
-        {
-            selectionBox.Size = new Size(0, 0);
-        }
-
-        private static ImageFormat StringToImageFormat(string s)
-        {
-            switch (s)
+            if (!String.IsNullOrEmpty(result))
             {
-                case "Bmp":
-                    return ImageFormat.Bmp;
-                case "Emf":
-                    return ImageFormat.Emf;
-                case "Exif":
-                    return ImageFormat.Exif;
-                case "Gif":
-                    return ImageFormat.Gif;
-                case "Icon":
-                    return ImageFormat.Icon;
-                case "Jpeg":
-                    return ImageFormat.Jpeg;
-                case "Png":
-                    return ImageFormat.Png;
-                case "Tiff":
-                    return ImageFormat.Tiff;
-                case "Wmf":
-                    return ImageFormat.Wmf;
-                default:
-                    return ImageFormat.Bmp;
+                updateToolStripMenuItem.Visible = true;
+                notifyIcon1.ShowBalloonTip(3000);
+                mUpdateURL = result;
             }
-        }
-
-        private static Bitmap CreateBitmap(Point start, Size size)
-        {
-            Bitmap bmp = new Bitmap(size.Width, size.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            Graphics g = Graphics.FromImage(bmp);
-            g.CopyFromScreen(start.X, start.Y, 0, 0, bmp.Size, CopyPixelOperation.SourceCopy);
-            return bmp;
         }
     }
 }

@@ -122,7 +122,7 @@
             // 
             // btnOk
             // 
-            this.btnOk.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnOk.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnOk.Location = new System.Drawing.Point(438, 214);
@@ -151,7 +151,7 @@
             this.Name = "frmAbout";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "About Capture";
             this.Load += new System.EventHandler(this.frmAbout_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();

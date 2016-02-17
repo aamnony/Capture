@@ -35,7 +35,7 @@ namespace Capture
         void this_StartupNextInstance(object sender, StartupNextInstanceEventArgs e)
         {
             frmMain form = MainForm as frmMain;
-            form.maximizeForm();
+            form.MaximizeForm();
         }
 
         protected override void OnCreateMainForm()
