@@ -85,6 +85,7 @@ namespace Capture
                     Properties.Settings.Default.StartMinimized = chkStartMinimized.Checked;
                     Properties.Settings.Default.RunAtStartup = chkRunAtStartup.Checked;
                     Properties.Settings.Default.CopyToClipboard = chkCopyToClipboard.Checked;
+                    Properties.Settings.Default.ShowSize = chkShowSize.Checked;
                     Properties.Settings.Default.Save();
 
                     AddRemoveStartupLink(chkRunAtStartup.Checked);
@@ -145,6 +146,7 @@ namespace Capture
             mStartMinimized = chkStartMinimized.Checked = Properties.Settings.Default.StartMinimized;
             chkRunAtStartup.Checked = Properties.Settings.Default.RunAtStartup;
             chkCopyToClipboard.Checked = Properties.Settings.Default.CopyToClipboard;
+            chkShowSize.Checked = Properties.Settings.Default.ShowSize;
         }
 
         private void txtPath_TextChanged(object sender, EventArgs e)

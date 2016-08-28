@@ -64,7 +64,6 @@ namespace Capture
             {
                 case "Bmp":
                     return ImageFormat.Bmp;
-
                 case "Emf":
                     return ImageFormat.Emf;
 
@@ -133,7 +132,7 @@ namespace Capture
                     MinimizeForm();
                 }
             }
-            else if (e.KeyChar == 's')
+            else if (e.KeyChar == 's' || e.KeyChar == 'S' || e.KeyChar == 'ד')
             {
                 Cursor = Cursor == Cursors.Cross ? sShareCursor : Cursors.Cross;
             }
@@ -184,6 +183,10 @@ namespace Capture
         {
             if (e.Button == MouseButtons.Left)
             {
+                if (Properties.Settings.Default.ShowSize)
+                {
+                    lblSelectionSize.Visible = true;
+                }
                 selectionBox.BorderStyle = Properties.Settings.Default.ImageBorder;
                 mLeftMouseButtonDown = true;
                 mSelectionBoxStart.X = e.X;
@@ -197,15 +200,24 @@ namespace Capture
             {
                 selectionBox.Location = new Point(Math.Min(e.X, mSelectionBoxStart.X), Math.Min(e.Y, mSelectionBoxStart.Y));
                 selectionBox.Size = new Size(Math.Abs(e.X - mSelectionBoxStart.X), Math.Abs(e.Y - mSelectionBoxStart.Y));
+
+                if (Properties.Settings.Default.ShowSize)
+                {
+                    lblSelectionSize.Location = new Point(selectionBox.Location.X, selectionBox.Location.Y - lblSelectionSize.Height);
+                    lblSelectionSize.Text = selectionBox.Size.ToString();
+                    lblSelectionSize.Visible = true;
+                }
             }
             else
             {
+                lblSelectionSize.Visible = false;
                 CloseSelectionBox();
             }
         }
 
         private void Form_MouseUp(object sender, MouseEventArgs e)
         {
+            lblSelectionSize.Visible = false;
             if (mLeftMouseButtonDown && selectionBox.Width > MINIMUM_SELECTION_WIDTH && selectionBox.Height > MINIMUM_SELECTION_HEIGHT)
             {
                 var currentCurser = Cursor;
@@ -328,6 +340,14 @@ namespace Capture
                 notifyIcon1.ShowBalloonTip(3000);
                 mUpdateURL = result;
             }
+        }
+
+        private void selectionBox_Paint(object sender, PaintEventArgs e)
+        {
+            Control c = (Control)sender;
+            e.Graphics.DrawRectangle(new Pen(Brushes.White), c.Location.X, c.Location.Y, c.Width, c.Height);
+            
+            e.Graphics.DrawString(c.Size.ToString(), Font, Brushes.Black, c.Location);
         }
     }
 }

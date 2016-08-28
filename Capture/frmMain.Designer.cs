@@ -44,6 +44,7 @@
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.workerUpdateNotification = new System.ComponentModel.BackgroundWorker();
+            this.lblSelectionSize = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.selectionBox)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -77,44 +78,44 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.contextMenuStrip1.ShowImageMargin = false;
-            this.contextMenuStrip1.Size = new System.Drawing.Size(128, 176);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(113, 154);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // minMaxToolStripMenuItem
             // 
             this.minMaxToolStripMenuItem.Name = "minMaxToolStripMenuItem";
-            this.minMaxToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.minMaxToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.minMaxToolStripMenuItem.Text = "Hide";
             this.minMaxToolStripMenuItem.Click += new System.EventHandler(this.minMaxToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(124, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(109, 6);
             // 
             // openFolderToolStripMenuItem
             // 
             this.openFolderToolStripMenuItem.Name = "openFolderToolStripMenuItem";
-            this.openFolderToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.openFolderToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.openFolderToolStripMenuItem.Text = "Open folder";
             this.openFolderToolStripMenuItem.Click += new System.EventHandler(this.openFolderToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(124, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(109, 6);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // updateToolStripMenuItem
             // 
             this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
-            this.updateToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.updateToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.updateToolStripMenuItem.Text = "Update";
             this.updateToolStripMenuItem.Visible = false;
             this.updateToolStripMenuItem.Click += new System.EventHandler(this.updateToolStripMenuItem_Click);
@@ -122,19 +123,19 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(124, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(109, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -155,6 +156,18 @@
             this.workerUpdateNotification.DoWork += new System.ComponentModel.DoWorkEventHandler(this.workerUpdateNotification_DoWork);
             this.workerUpdateNotification.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.workerUpdateNotification_RunWorkerCompleted);
             // 
+            // lblSelectionSize
+            // 
+            this.lblSelectionSize.AutoSize = true;
+            this.lblSelectionSize.BackColor = System.Drawing.SystemColors.Info;
+            this.lblSelectionSize.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.lblSelectionSize.Location = new System.Drawing.Point(40, 40);
+            this.lblSelectionSize.Name = "lblSelectionSize";
+            this.lblSelectionSize.Size = new System.Drawing.Size(66, 13);
+            this.lblSelectionSize.TabIndex = 2;
+            this.lblSelectionSize.Text = "widthxheight";
+            this.lblSelectionSize.Visible = false;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -162,6 +175,7 @@
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(714, 357);
             this.ControlBox = false;
+            this.Controls.Add(this.lblSelectionSize);
             this.Controls.Add(this.selectionBox);
             this.Cursor = System.Windows.Forms.Cursors.Cross;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -183,6 +197,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.selectionBox)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -202,6 +217,7 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.ComponentModel.BackgroundWorker workerUpdateNotification;
         private System.Windows.Forms.ToolStripMenuItem updateToolStripMenuItem;
+        private System.Windows.Forms.Label lblSelectionSize;
     }
 }
 

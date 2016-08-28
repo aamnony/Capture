@@ -45,6 +45,7 @@
             this.lblFrame = new System.Windows.Forms.Label();
             this.grpBehaviour = new System.Windows.Forms.GroupBox();
             this.chkCopyToClipboard = new System.Windows.Forms.CheckBox();
+            this.chkShowSize = new System.Windows.Forms.CheckBox();
             this.grpData.SuspendLayout();
             this.grpBehaviour.SuspendLayout();
             this.SuspendLayout();
@@ -88,7 +89,7 @@
             this.btnCancel.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnCancel.Location = new System.Drawing.Point(434, 142);
+            this.btnCancel.Location = new System.Drawing.Point(434, 173);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(115, 29);
@@ -134,7 +135,7 @@
             this.btnOk.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnOk.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnOk.Location = new System.Drawing.Point(352, 142);
+            this.btnOk.Location = new System.Drawing.Point(352, 173);
             this.btnOk.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(78, 29);
@@ -216,7 +217,7 @@
             this.grpData.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.grpData.Location = new System.Drawing.Point(226, 8);
             this.grpData.Name = "grpData";
-            this.grpData.Size = new System.Drawing.Size(323, 128);
+            this.grpData.Size = new System.Drawing.Size(323, 155);
             this.grpData.TabIndex = 17;
             this.grpData.TabStop = false;
             this.grpData.Text = "Data";
@@ -245,6 +246,7 @@
             // 
             // grpBehaviour
             // 
+            this.grpBehaviour.Controls.Add(this.chkShowSize);
             this.grpBehaviour.Controls.Add(this.chkCopyToClipboard);
             this.grpBehaviour.Controls.Add(this.chkMinimizeAfterCapture);
             this.grpBehaviour.Controls.Add(this.chkOpenAfterSaving);
@@ -253,7 +255,7 @@
             this.grpBehaviour.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.grpBehaviour.Location = new System.Drawing.Point(8, 8);
             this.grpBehaviour.Name = "grpBehaviour";
-            this.grpBehaviour.Size = new System.Drawing.Size(212, 163);
+            this.grpBehaviour.Size = new System.Drawing.Size(212, 194);
             this.grpBehaviour.TabIndex = 18;
             this.grpBehaviour.TabStop = false;
             this.grpBehaviour.Text = "Behaviour";
@@ -273,13 +275,28 @@
             this.chkCopyToClipboard.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chkCopyToClipboard.UseVisualStyleBackColor = true;
             // 
+            // chkShowSize
+            // 
+            this.chkShowSize.AutoSize = true;
+            this.chkShowSize.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkShowSize.Cursor = System.Windows.Forms.Cursors.Default;
+            this.chkShowSize.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.chkShowSize.Location = new System.Drawing.Point(9, 161);
+            this.chkShowSize.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.chkShowSize.Name = "chkShowSize";
+            this.chkShowSize.Size = new System.Drawing.Size(176, 21);
+            this.chkShowSize.TabIndex = 18;
+            this.chkShowSize.Text = "Show size measurments";
+            this.chkShowSize.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chkShowSize.UseVisualStyleBackColor = true;
+            // 
             // frmOptions
             // 
             this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(558, 177);
+            this.ClientSize = new System.Drawing.Size(558, 210);
             this.ControlBox = false;
             this.Controls.Add(this.grpBehaviour);
             this.Controls.Add(this.grpData);
@@ -322,5 +339,6 @@
         private System.Windows.Forms.CheckBox chkCopyToClipboard;
         private System.Windows.Forms.ComboBox cmbImageBorder;
         private System.Windows.Forms.Label lblFrame;
+        private System.Windows.Forms.CheckBox chkShowSize;
     }
 }

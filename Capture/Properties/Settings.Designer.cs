@@ -142,5 +142,17 @@ namespace Capture.Properties {
                 this["UpgradeRequired"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowSize {
+            get {
+                return ((bool)(this["ShowSize"]));
+            }
+            set {
+                this["ShowSize"] = value;
+            }
+        }
     }
 }
